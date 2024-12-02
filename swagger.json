@@ -1,0 +1,84 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "My API",
+      "description": "My API description",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/url": {
+        "post": {
+          "summary": "Give Url To shortern it.",
+          "description": "Returns Response it has been saved",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "The URL to be shortened",
+                    "example": "https://example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/url/{ShortId}": {
+        "get": {
+          "summary": "Redirect URL based on ShortId",
+          "description": "Finds the URL corresponding to the ShortId and redirects the user to that URL while recording the visit history.",
+          "parameters": [
+            {
+              "name": "ShortId",
+              "in": "path",
+              "description": "The ShortId to retrieve the corresponding URL",
+              "required": true,
+              "type": "string",
+              "example": "wB1GZimS4"
+            }
+          ],
+          "responses": {
+            "301": {
+              "description": "Redirected to the original URL",
+              "headers": {
+                "Location": {
+                  "description": "The URL the user is being redirected to",
+                  "type": "string",
+                  "example": "https://example.com"
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found, no matching ShortId found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      }
+    }
+}
